@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="jquery-3.2.1.min.js" ></script>
+  <link rel="stylesheet" href="task1.css" type="text/css">
+  <title>精弘人员查询系统</title>
+  <script type="text/javascript">
+      function DateSelector(selYear, selMonth, selDay) {
+          this.selYear = selYear;
+          this.selMonth = selMonth;
+          this.selDay = selDay;
+          var dt = new Date();
+          this.InitSelector(dt.getFullYear(), dt.getMonth() + 1, dt.getDate());
+      }
+
+      DateSelector.prototype.MinYear = 1980;
+
+      DateSelector.prototype.MaxYear = (new Date()).getFullYear();
+
+      DateSelector.prototype.InitYearSelect = function () {
+          for (var i = this.MaxYear; i >= this.MinYear; i--) {
+              var op = window.document.createElement("OPTION");
+              op.value = i;
+              op.innerHTML = i;
+              this.selYear.appendChild(op);
+          }
+      }
+
+      DateSelector.prototype.InitMonthSelect = function () {
+          for (var i = 0; i < 13; i++) {
+              var op = window.document.createElement("OPTION");
+              op.value = i;
+              op.innerHTML = i;
+              this.selMonth.appendChild(op);
+          }
+      }
+
+      DateSelector.DaysInMonth = function (year, month) {
+          var date = new Date(year, month, 0);
+          return date.getDate();
+      }
+
+      DateSelector.prototype.InitDaySelect = function () {
+          var year = parseInt(this.selYear.value);
+          var month = parseInt(this.selMonth.value);
+          var daysInMonth = DateSelector.DaysInMonth(year, month);
+          this.selDay.options.length = 0;
+          for (var i = 0; i <= 31; i++) {
+              var op = window.document.createElement("OPTION");
+              op.value = i;
+              op.innerHTML = i;
+              this.selDay.appendChild(op);
+          }
+      }
+
+      DateSelector.prototype.InitSelector = function (year, month, day) {
+          this.selYear.options.length = 0;
+          this.selMonth.options.length = 0;
+          this.InitYearSelect();
+          this.InitMonthSelect();
+          this.selYear.selectedIndex = this.MaxYear - year;
+          this.selMonth.selectedIndex = month - 1;
+          this.InitDaySelect();
+          this.selDay.selectedIndex = day - 1;
+      }
+  </script>
+</head>
+
+<body>
+<form action="search.php" id="push" method="post">
+  <div>
+    <img src="logo.png" class="logo">
+  </div>
+  <div class="title">
+    <h1 style="color:white; font-family: Cambria">精弘人员查询系统<h5><span style="color:white">请完成内容的填写</span></h5></h1>
+    <hr style="height:1px;border:none;border-top:1px dashed #0066CC;" />
+  </div>
+  <div class="content"></div>
+  <!--<div class="content-left">-->
+  <!--<img src="诚哥.jpg" class="left-logo">-->
+  <!--</div>-->
+  <div class="content-header">
+    <span class="header"><h2>欢迎使用人员查询系统</h2></span>
+  </div>
+  <div class="Number">
+    <input id="number" type="text" name="number" placeholder="请填写需要查询的学号" class="input-number"/>
+  </div>
+  </br>
+  <div class="Name">
+    <input id="name" type="text" name="name" placeholder="请填写需要查询的姓名" class="input-name"/>
+  </div>
+  </br>
+  <div class="Sex">
+    <span style="color:rebeccapurple" class="span-sex">专业：</span>
+    <select class="MajorOption" name="major" id="major" style="background: #444444 0px 0px; color: #ffffff; font-size: 14px; border: #000000 1px solid; padding: 5px;">
+      <option value="无">无</option>
+      <option value="电气通信与计算机">电气通信与计算机</option>
+      <option value="化工与生物类">化工与生物类</option>
+      <option value="机械与工业工程类">机械与工业工程类</option>
+      <option value="自动化">自动化</option>
+      <option value="药学大类">药学大类</option>
+      <option value="理学与光电信息">理学与光电信息</option>
+      <option value="师范类">师范类</option>
+      <option value="软工">软工</option>
+      <option value="经法管类">经法管类</option>
+    </select>
+  </div>
+  </br>
+  <div class="AgeSelect">
+    <span style="color:rebeccapurple" class="span-date">出生日期:</span>
+    <select id="selYear" name="selYear" class="selyear" style="background: #444444 0px 0px; color: #ffffff; font-size: 14px; border: #000000 1px solid; padding: 5px;"></select>
+    <select id="selMonth" name="selMonth" class="selmonth" style="background: #444444 0px 0px; color: #ffffff; font-size: 14px; border: #000000 1px solid; padding: 5px;"></select>
+    <select id="selDay" name="selDay" class="selday" style="background: #444444 0px 0px; color: #ffffff; font-size: 14px; border: #000000 1px solid; padding: 5px;"></select>
+    <script type="text/javascript">
+        var selYear = window.document.getElementById("selYear");
+        var selMonth = window.document.getElementById("selMonth");
+        var selDay = window.document.getElementById("selDay");
+        // 新建一个DateSelector类的实例，将三个select对象传进去
+        new DateSelector(selYear, selMonth, selDay, 0, 0, 0);
+    </script>
+    <h4>如果不知道具体月份或者日期可以选择0</h4>
+  </div>
+
+  <input type="submit" id="pushdata" value="提交" size="13px" class="push_button">
+</form>
+</body>
+
+</html>
+
